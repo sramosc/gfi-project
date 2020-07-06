@@ -27,7 +27,7 @@ class App extends Component<IProps, IState> {
   authenticate(body: object) {
     let mockedResponse = {
       userName: 'Prueba Prueba',
-      favs: [1, 2, 10]
+      favs: ['tt1111422', 'tt1111423']
     }
     return new Promise<any>((resolve, reject) => { setTimeout(() => { resolve(mockedResponse) }, 200) })
   }
@@ -41,7 +41,7 @@ class App extends Component<IProps, IState> {
     this.authenticate(body)
       .then((response) => {
         window.sessionStorage.setItem('userName', response.userName)
-        window.sessionStorage.setItem('favs', response.favs)
+        window.localStorage.setItem('favs', JSON.stringify(response.favs))
         this.setState({ isAuthenticated: true })
       })
       .catch(error => {
@@ -52,7 +52,7 @@ class App extends Component<IProps, IState> {
   logout() {
     this.setState({ isAuthenticated: false })
     window.sessionStorage.removeItem('userName')
-    window.sessionStorage.removeItem('favs')
+    window.localStorage.removeItem('favs')
 
   }
   render() {

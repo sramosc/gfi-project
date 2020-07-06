@@ -4,7 +4,7 @@ import { Form, FormGroup, Col, Label, Input, Button } from 'reactstrap'
 class MovieSearch extends Component {
 
   render() {
-    const { onChangeFilter, formData, onClickClear, onClickSubmit } = this.props
+    const { onChangeFilter, formData, onClickClear } = this.props
     return (
       <Form>
         <FormGroup row>
@@ -28,9 +28,10 @@ class MovieSearch extends Component {
               value={formData.type}
               onChange={(e) => onChangeFilter('type', e.target.value)}
             >
-              <option>movie</option>
-              <option>serie</option>
-              <option>episode</option>
+              <option value={''} key={0}>Select a type</option>
+              <option value={'movie'} key={1}>movie</option>
+              <option value={'series'} key={2}>series</option>
+              <option value={'episode'} key={3}>episode</option>
             </Input>
           </Col>
 
@@ -47,7 +48,6 @@ class MovieSearch extends Component {
 
         </FormGroup>
         <FormGroup>
-          <Button onClick={onClickSubmit}>Search</Button>
           <Button onClick={onClickClear}>Clear</Button>
         </FormGroup>
       </Form>
