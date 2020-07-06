@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import './App.css';
 import Login from './Login/Login'
+import MovieSearch from './MovieSearch/MovieSearch'
 
 interface IProps {
 }
@@ -58,7 +59,10 @@ class App extends Component<IProps, IState> {
     return (
       <div>
         {(this.state.isAuthenticated) ? (
-          <div>Logado como: {window.sessionStorage.getItem('userName')}</div>
+          <div>
+            <small>Logado como: {window.sessionStorage.getItem('userName')}</small>
+            <MovieSearch></MovieSearch>
+          </div>
         ) : (
             <Login login={this.login} />
           )}
