@@ -22,7 +22,6 @@ class Login extends Component {
           <FormGroup>
             <Label for="username">User Name</Label>
             <Input
-              type="username"
               name="username"
               id="username"
               placeholder="Enter User Name"
