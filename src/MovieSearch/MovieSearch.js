@@ -78,7 +78,6 @@ class MovieSearch extends Component {
     let imdbID = this.state.movie.imdbID
     let favs = JSON.parse(window.localStorage.getItem('favs'))
     let filtered = favs.filter(elem => elem !== imdbID)
-    console.log(filtered)
     window.localStorage.setItem('favs', JSON.stringify(filtered))
     this.setState({ isFav: false })
   }
