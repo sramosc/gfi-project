@@ -20,8 +20,6 @@ export default class UserBar extends Component {
               </Button>
           </Col>
         </Row>
-
-
       </div>
     )
   }
