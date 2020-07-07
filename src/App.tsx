@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import './App.css';
 import Login from './Login/Login'
 import MovieSearch from './MovieSearch/MovieSearch'
+import UserBar from './UserBar/UserBar'
 
 interface IProps {
 }
@@ -45,23 +46,24 @@ class App extends Component<IProps, IState> {
         this.setState({ isAuthenticated: true })
       })
       .catch(error => {
+        // not needed since it's mocked
       })
       .finally(() => this.setState({ loading: false }))
   }
 
-  logout() {
+  logout = () => {
     this.setState({ isAuthenticated: false })
     window.sessionStorage.removeItem('userName')
     window.localStorage.removeItem('favs')
-
   }
+
   render() {
     return (
       <div>
         {(this.state.isAuthenticated) ? (
           <div>
-            <small>Logado como: {window.sessionStorage.getItem('userName')}</small>
-            <MovieSearch></MovieSearch>
+            <UserBar logout={this.logout} />
+            <MovieSearch />
           </div>
         ) : (
             <Login login={this.login} />

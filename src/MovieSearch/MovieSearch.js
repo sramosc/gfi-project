@@ -12,7 +12,8 @@ class MovieSearch extends Component {
     this.state = {
       formData: { s: '', type: '', y: '', page: 1 },
       movies: [],
-      movie: null
+      movie: null,
+      isFav: false
     }
     this.handleOnChangeFilter = this.handleOnChangeFilter.bind(this)
   }
@@ -42,7 +43,7 @@ class MovieSearch extends Component {
         if (response.Response === 'True') {
           this.setState({ movies: response.Search, totalPages: Math.ceil(response.totalResults / PAGESIZE) })
         } else {
-          //TODO
+          this.setState({ movies: [] })
         }
       })
   }
@@ -55,17 +56,36 @@ class MovieSearch extends Component {
     this.getMovie(imdbID)
       .then(response => {
         if (response.Response === 'True') {
-          this.setState({ movie: response })
+          let imdbID = response.imdbID
+          let favs = JSON.parse(window.localStorage.getItem('favs'))
+          let isFav = favs.find(elem => elem === imdbID) ? true : false
+          this.setState({ movie: response, isFav })
         } else {
           //TODO
         }
       })
   }
 
+  addFav = () => {
+    let imdbID = this.state.movie.imdbID
+    let favs = JSON.parse(window.localStorage.getItem('favs'))
+    favs.push(imdbID)
+    window.localStorage.setItem('favs', JSON.stringify(favs))
+    this.setState({ isFav: true })
+  }
+
+  delFav = () => {
+    let imdbID = this.state.movie.imdbID
+    let favs = JSON.parse(window.localStorage.getItem('favs'))
+    let filtered = favs.filter(elem => elem !== imdbID)
+    console.log(filtered)
+    window.localStorage.setItem('favs', JSON.stringify(filtered))
+    this.setState({ isFav: false })
+  }
+
   render() {
     return (
       <div>
-        <h3>Movies Search</h3>
         <MovieForm
           formData={this.state.formData}
           onChangeFilter={this.handleOnChangeFilter}
@@ -80,7 +100,10 @@ class MovieSearch extends Component {
         ></MovieList>
         {(this.state.movie) ?
           (<MovieDetail
-            movie={this.state.movie}>
+            movie={this.state.movie}
+            isFav={this.state.isFav}
+            addFav={this.addFav}
+            delFav={this.delFav}>
           </MovieDetail>) :
           (<></>)}
 
