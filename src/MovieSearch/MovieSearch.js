@@ -13,7 +13,8 @@ class MovieSearch extends Component {
       formData: { s: '', type: '', y: '', page: 1 },
       movies: [],
       movie: null,
-      isFav: false
+      isFav: false,
+      isLoadingMovies: false
     }
     this.handleOnChangeFilter = this.handleOnChangeFilter.bind(this)
   }
@@ -38,6 +39,7 @@ class MovieSearch extends Component {
   }
 
   handleOnSearch = () => {
+    this.setState({ isLoadingMovies: true })
     this.searchMovies()
       .then(response => {
         if (response.Response === 'True') {
@@ -46,6 +48,9 @@ class MovieSearch extends Component {
           this.setState({ movies: [] })
         }
       })
+      .finally(
+        this.setState({ isLoadingMovies: false })
+      )
   }
 
   handleOnClickClear = () => {
@@ -61,7 +66,7 @@ class MovieSearch extends Component {
           let isFav = favs.find(elem => elem === imdbID) ? true : false
           this.setState({ movie: response, isFav })
         } else {
-          //TODO
+          console.log('Couldnt get movie with imdbID: ' + imdbID)
         }
       })
   }
@@ -96,6 +101,7 @@ class MovieSearch extends Component {
           pageNumber={this.state.formData.page}
           changePage={this.handleOnChangeFilter}
           onClickMovie={this.handleOnSelectMovie}
+          isLoading={this.state.isLoadingMovies}
         ></MovieList>
         {(this.state.movie) ?
           (<MovieDetail
@@ -105,7 +111,6 @@ class MovieSearch extends Component {
             delFav={this.delFav}>
           </MovieDetail>) :
           (<></>)}
-
       </div>
     );
   }
